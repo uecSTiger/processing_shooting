@@ -19,14 +19,14 @@ void setup(){
      /********* フォントの設定  ************/
      // フォントをVLWフォーマットに変換・作成
      font = createFont("MS Mincho", 48);        // ＭＳ明朝 「MS Mincho」
-     textFont(font);                            // フォント，サイズを指定する
+     textFont(font);                            // フォントを指定する
      /**************************************/
 }
 
 // my ship function
 class Ship{
-  int sx, sy; // 船の場所
-  int hp = 255;     // 船のHP
+  int sx, sy;     // 船の場所
+  int hp = 255;   // 船のHP
   
   Ship(int x, int y){
      sx = x;
@@ -56,8 +56,9 @@ class Ship{
 
 // tama class
 class Tama{
-  float tx, ty, tr, dx, dy;
-  color col;
+  float tx, ty, tr, dx, dy; // 球の座標と方向
+  color col; // 球の色
+  
   Tama(float x, float y, float r, float Dx, float Dy, color Col){
     tx = x;
     ty = y;
@@ -66,6 +67,7 @@ class Tama{
     dy = Dy;
     col = Col;
   }
+  
   boolean update(){
        tx += dx;
        ty += dy;
@@ -89,9 +91,9 @@ class Tama{
 class Boss{
   float bx, by;        // ボスの座標
   float bw;            // ボスの幅
-  float hp = 255;           // ボスのHP
-  float bx_move= 2; // ボスの動く量 
-  ArrayList danmaku;  // ボスが弾を吐くので、ここに移動
+  float hp = 255;      // ボスのHP
+  float bx_move= 2;    // ボスの動く量 
+  ArrayList danmaku;   // ボスが吐く球の配列
  
   Boss(float x, float y, float w) {
     bx = x;
@@ -100,12 +102,12 @@ class Boss{
     danmaku = new ArrayList();
   }
  
- // 360°円形放射
+ // ボスから360°円形放射
   void fire_360(){
     for (int i = danmaku.size() -1; i >=0 ; i--) {
       Tama t = (Tama)danmaku.get(i);  // ArrayList から Tamaをとりだし
-      if (t.update() == false)   // update メソッドをよび
-        danmaku.remove(i);   // 画面外だったら、削除
+      if (t.update() == false)        // update メソッドをよび
+        danmaku.remove(i);            // 画面外と船に当たったら、削除
     }
     
     if(frameCount % 30 == 0){
@@ -116,7 +118,7 @@ class Boss{
     }
   }
   
-  // 遅く大きい球
+  // 遅くf船を狙う大きい球
   void fire_slow() {
     if(frameCount % 40 == 0){
       PVector direct = new PVector(ship.sx - bx, ship.sy - by);
@@ -124,7 +126,7 @@ class Boss{
       danmaku.add(new Tama(bx, by, 70, direct.x*4, direct.y*4, yellow));
     }
   }
-  // 早く船を狙う球
+  // 早く船を狙う小さい球
   void fire_fast() {
    if(frameCount % 20 == 0){
       PVector direct = new PVector(ship.sx - bx, ship.sy - by);
@@ -170,15 +172,15 @@ void draw(){
         textAlign(CENTER);
         textSize(70);
         if(ship.hp <= 0){
-          fill(blue);  // blue
+          fill(blue);
         text("YOU LOSE", width / 2, height / 2);
         } else {
-          fill(255 * sin(frameCount), 255, 255 * cos(frameCount));  // red
+          fill(255 * sin(frameCount), 255, 255 * cos(frameCount));
           text("YOU WIN", width / 2, height / 2);
         }
      }else{
        background(0); // clear
-       print_time();
+       print_time();  // 経過時間表示
        ship.updata(mouseX, mouseY);
        boss.move();
      }
