@@ -1,6 +1,5 @@
 // 1体の敵の座標、方向（早さ）を管理(生成)
 // 敵の当たり判定
-// 敵に画像にする
 public class makeEnemy{
   float enemy_x, enemy_y, dx, dy; // 敵の座標と方向
   color col; // 敵の色

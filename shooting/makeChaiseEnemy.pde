@@ -1,6 +1,5 @@
 // 1体の敵の座標、方向（早さ）を管理(生成)
 // 敵の当たり判定
-// 敵を画像にする
 public class makeChaiseEnemy{
   float cenemy_x, cenemy_y, cdx, cdy; // 敵の座標と方向
   color col; // 敵の色

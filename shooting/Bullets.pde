@@ -12,6 +12,7 @@ public class Bullet{
     col = Col;
   }
   
+  // 弾の位置の更新(画面外の弾(false)はリストから削除)
   boolean update(){
     bullet_x += dx;
     bullet_y += dy;
@@ -19,7 +20,7 @@ public class Bullet{
     fill(col);
     ellipse(bullet_x, bullet_y, bullet_r, bullet_r);
     
-    // area check
+    // 弾の範囲
     if(bullet_y <= 0)
       return false;
       
