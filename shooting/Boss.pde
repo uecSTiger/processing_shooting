@@ -63,9 +63,14 @@ public class Boss{
  
   
   void move(){
+    /*
     stroke(white);
     fill(0, 255 - hp, 0);
     rect(boss_x, boss_y, boss_w, 10);
+    */
+    pictures = loadImage(picture[1]+".png");
+    image(pictures, boss_x-20, boss_y, 60, 40);
+    
     if(boss_x >= width || boss_x <= 0)
       move= -move;
        
