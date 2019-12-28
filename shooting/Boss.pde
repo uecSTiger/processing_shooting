@@ -2,7 +2,7 @@
 // ボスの攻撃方法
 public class Boss{
   float boss_x, boss_y, boss_w;
-  float move = 2;
+  float move_x = 2;
   float hp = 255;
   ArrayList bullets;
   
@@ -71,13 +71,32 @@ public class Boss{
     pictures = loadImage(picture[1]+".png");
     image(pictures, boss_x-20, boss_y, 60, 40);
     
+    // ボスの移動
     if(boss_x >= width || boss_x <= 0)
-      move= -move;
-       
-    boss_x += move; 
+      move_x = -move_x;
+    boss_x += move_x; 
+    
+    if(level >= 2){
+      float move_xa = 3*cos(frameCount/18+10)-1*cos(frameCount/10+10);
+      if((boss_x >= width && move_xa > 0) || (boss_x <= 0 && move_xa < 0)){
+        boss_x -= move_xa;
+      }else{
+        boss_x += move_xa;
+      }
+    }
+    
+    if(level == 3){
+      float move_y = 5*sin(frameCount/18+10)-3*sin(frameCount/10+10);
+      if((boss_y >= height && move_y > 0) || (boss_y <= 0 && move_y < 0)){
+        boss_y -= move_y;
+      }else{
+        boss_y += move_y;
+      }
+    }
     
     boss.remove_bullets();
     
+    // 難易度による攻撃手段の変更
     if(level == 1){
       easyBoss();
     }else if(level == 2){
