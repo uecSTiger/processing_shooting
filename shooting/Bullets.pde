@@ -31,6 +31,8 @@ public class Bullet{
     if(dist(bullet_x, bullet_y, ship.ship_x, ship.ship_y) <= (bullet_r/2 + 2)){
        println("ship hit");
        ship.hit();
+       score -= 300;
+       if(score < 0 && level <= 2) score = 0;
        return false;
     }
        return true;
