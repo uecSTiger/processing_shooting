@@ -13,6 +13,17 @@ public class Ship{
     y = _y;
   }
   
+  void hpBar(){
+    // HPゲージの描画
+    if(hp >= 60) stroke(white);
+    else stroke(red);
+    noFill();
+    rect(x, y+size, 25.5, height/100);
+    if(hp >= 60) fill(white);
+    else fill(red);
+    rect(x, y+size, hp/10, height/100);
+  }
+  
   // 座標の更新
   void update(float _x, float _y){
     // マウスカーソルでの移動の場合, 速度の問題でワープが起きる(解決するためマウスの方向へ割合移動)
@@ -74,22 +85,9 @@ public class Ship{
     }
     
     // 船の描画
-    /*
-    stroke(255);    
-    fill(hp);
-    triangle(ship_x, ship_y-13, ship_x-13, ship_y+18, ship_x+13, ship_y+18);
-    */
     pictures = loadImage(picture[0]+".png");
     image(pictures, x-20, y-20, size, size);
-    
-    // HPゲージの描画
-    if(hp >= 60) stroke(white);
-    else stroke(red);
-    noFill();
-    rect(x, y+size, 25.5, height/100);
-    if(hp >= 60) fill(white);
-    else fill(red);
-    rect(x, y+size, hp/10, height/100);
+    hpBar();
     
   }
   

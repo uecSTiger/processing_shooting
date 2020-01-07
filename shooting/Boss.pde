@@ -61,13 +61,19 @@ public class Boss{
     if(frameCount % 20 == 0 && hp <=    85) fire_fast();
   }
  
+ void bossAttack(){
+    // 難易度による攻撃手段の変更
+    if(level == 1){
+      easyBoss();
+    }else if(level == 2){
+      normalBoss();
+    }else if(level == 3){
+      hardBoss();
+    }
+ }
   
   void move(){
-    /*
-    stroke(white);
-    fill(0, 255 - hp, 0);
-    rect(boss_x, boss_y, boss_w, 10);
-    */
+    // ボス描画
     pictures = loadImage(picture[1]+".png");
     image(pictures, x-20, y, 60, 40);
     
@@ -96,14 +102,7 @@ public class Boss{
     
     boss.remove_bullets();
     
-    // 難易度による攻撃手段の変更
-    if(level == 1){
-      easyBoss();
-    }else if(level == 2){
-      normalBoss();
-    }else if(level == 3){
-      hardBoss();
-    }
+    bossAttack();
     
   }
   
