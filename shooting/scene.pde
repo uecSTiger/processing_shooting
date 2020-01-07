@@ -2,6 +2,9 @@
 // menu画面
 // ゲーム画面
 
+// 船の強化具合
+// 船の回復アイテム
+
 public class Scene{
   int boss_frame = 130; // ボスに行くフレーム時間
   int frame_cnt = 0;    // 制限時間
@@ -39,15 +42,15 @@ public class Scene{
     }
     if (level == 1){
       scene.playGame();//easy();  難易度ごとに弾の種類を変える
-      boss_frame = 60;
+      boss_frame = 1;
     }
     if (level == 2){
       scene.playGame();//normal();
-      boss_frame = 90;
+      boss_frame = 1;
     }
     if (level == 3){
       scene.playGame();//hard();
-      boss_frame = 120;
+      boss_frame = 1;
     }
     if (level == 5)  scene.playGame();//gradius.play();  違うのクラスへ
   }
@@ -73,10 +76,23 @@ public class Scene{
     textSize(20);
     text("Press H To Start", width/2, 220);
     
+    textSize(40);
+    fill(255);
+    text("Check", width/2, 350);
+    textSize(20);
+    text("Press c To Start", width/2, 370);
+    
+    textSize(20);
+    fill(255);
+    textAlign(RIGHT);
+    text("音楽: OtoLogic  ", width, height-100);
+    text("画像: いらすとや", width, height-70);
+    
     if (keyPressed) {
       if (key == 'e') level = 1;
       if (key == 'n') level = 2;
       if (key == 'h') level = 3;
+      if (key == 'c') level = 5;
     }
   }
   
@@ -119,6 +135,8 @@ public class Scene{
         step = frameCount-frame_cnt;  // "Boss"の表示時間の調整
         
         // ボスの表示
+        enemyBgm.close();
+        bossBgm.loop();
         boss = new Boss(160, 30, 15);
         boss_pop = true;
      }
