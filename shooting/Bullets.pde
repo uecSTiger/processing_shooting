@@ -1,35 +1,38 @@
 // 敵の弾
 public class Bullet{
-  float bullet_x, bullet_y, bullet_r, dx, dy; // ボスの弾の座標と大きさと方向
+  float x, y, r, dx, dy; // ボスの弾の座標と大きさと方向
   color col;
   
-  Bullet(float x, float y, float r, float Dx, float Dy, color Col){
-    bullet_x = x;
-    bullet_y = y;
-    bullet_r = r;
-    dx = Dx;
-    dy = Dy;
-    col = Col;
+  Bullet(float _x, float _y, float _r, float _dx, float _dy, color _col){
+    x = _x;
+    y = _y;
+    r = _r;
+    dx = _dx;
+    dy = _dy;
+    col = _col;
   }
   
+  // 弾の位置の更新(画面外の弾(false)はリストから削除)
   boolean update(){
-    bullet_x += dx;
-    bullet_y += dy;
+    x += dx;
+    y += dy;
     stroke(col);
     fill(col);
-    ellipse(bullet_x, bullet_y, bullet_r, bullet_r);
+    ellipse(x, y, r, r);
     
-    // area check
-    if(bullet_y <= 0)
+    // 弾の範囲
+    if(y <= 0)
       return false;
       
     // area check
-    if (bullet_y >= height || bullet_y <= 0 || bullet_x >= width || bullet_x <= 0)
+    if (y >= height || y <= 0 || x >= width || x <= 0)
        return false;
     // hit check
-    if(dist(bullet_x, bullet_y, ship.ship_x, ship.ship_y) <= (bullet_r/2 + 2)){
+    if(dist(x, y, ship.x, ship.y) <= (r/2 + 2)){
        println("ship hit");
        ship.hit();
+       score -= 300;
+       if(score < 0 && level <= 2) score = 0;
        return false;
     }
        return true;
