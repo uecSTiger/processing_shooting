@@ -1,5 +1,6 @@
 // 1体の敵の座標、方向（早さ）を管理(生成)
 // 敵の当たり判定
+// easyとnormalの時はスコアが0以下にはならない
 public class makeChaiseEnemy{
   float cenemy_x, cenemy_y, cdx, cdy; // 敵の座標と方向
   color col; // 敵の色
@@ -14,7 +15,7 @@ public class makeChaiseEnemy{
   
   boolean update(){
     if(frameCount % 70 == 0){
-      PVector direct = new PVector(ship.ship_x - cenemy_x, ship.ship_y - cenemy_y);
+      PVector direct = new PVector(ship.x - cenemy_x, ship.y - cenemy_y);
       direct.normalize(direct);
       if(direct.x >= 0.5){
         cdx = (direct.x - 0.1) * 2;
@@ -39,17 +40,17 @@ public class makeChaiseEnemy{
       
     // hit check
     // 船が敵に当たった
-    if(dist(cenemy_x, cenemy_y, ship.ship_x, ship.ship_y) <= ENEMY_size){
+    if(dist(cenemy_x, cenemy_y, ship.x, ship.y) <= (ENEMY_size+ship.size)/2){
       println("ship hit");
       ship.hit();
       return false;
     }
     
     // 攻撃が敵に当たった
-    if(ship.ship_Gflag == true && (dist(cenemy_x, cenemy_y, ship.ship_bx, ship.ship_by) < ((ENEMY_size+SHIP_Bsize)/2))){
+    if(ship.bflag == true && (dist(cenemy_x, cenemy_y, ship.bx, ship.by) < ((ENEMY_size+SHIP_Bsize)/2))){
       println("ship shoot");
       score += 100;
-      ship.ship_Gflag = false;
+      ship.bflag = false;
       
       return false;
     }

@@ -14,7 +14,7 @@ public class makeEnemy{
   
   boolean hitCheck(){
     // 船が敵に当たった
-    if(dist(x, y, ship.ship_x, ship.ship_y) <= (ENEMY_size+ship.ship_size)/2){
+    if(dist(x, y, ship.x, ship.y) <= (ENEMY_size+ship.size)/2){
       println("ship hit");
       ship.hit();
       score -= 200;
@@ -23,10 +23,10 @@ public class makeEnemy{
     }
     
     // 船の攻撃が敵に当たった
-    if(ship.ship_Gflag == true && (dist(x, y, ship.ship_bx, ship.ship_by) < ((ENEMY_size+SHIP_Bsize)/2))){
+    if(ship.bflag == true && (dist(x, y, ship.bx, ship.by) < ((ENEMY_size+SHIP_Bsize)/2))){
       println("ship shoot");
       score += 100;
-      ship.ship_Gflag = false;
+      ship.bflag = false;
       return false;
     }
     

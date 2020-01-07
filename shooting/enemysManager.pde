@@ -29,14 +29,14 @@ public class Enemys{
       float dy = random(20)/4;    // 敵のy方向に進む速さ
       if(dy < 1.5) dy = 2;
       
-      cenemys.add(new makeChaiseEnemy(x, y, dx, dy, orange));
+      cenemys.add(new makeChaiseEnemy(x, y, dx, dy, green));
   }
   
   // 船の方に行く敵(早い)
   void rapidEnemy(int cnt){
       float x = random(width); // 生成座標
       float y = 0;
-      PVector direct = new PVector(ship.ship_x - x, ship.ship_y);
+      PVector direct = new PVector(ship.x - x, ship.y);
       direct.normalize(direct);
       enemys.add(new makeEnemy(x, y, direct.x*4, direct.y*4, yellow));
   } 
@@ -46,19 +46,19 @@ public class Enemys{
       float x = int(random(2))+1; // 生成座標
       if(x == 2) x = 0; else x = width;
       float y = random(height/2)+(height/4);
-      PVector direct = new PVector(ship.ship_x - x, ship.ship_y - y);
+      PVector direct = new PVector(ship.x - x, ship.y - y);
       direct.normalize(direct);
       
-      enemys.add(new makeEnemy(x, y, direct.x*6, direct.y*4, blue));
+      enemys.add(new makeEnemy(x, y, direct.x*6, direct.y*4, orange));
   }
   
   // 下から上へ船へ向かって進む
   void belowEnemy(int cnt){
       float x = random(width); // 生成座標
       float y = height;
-      PVector direct = new PVector(ship.ship_x - x, ship.ship_y - y);
+      PVector direct = new PVector(ship.x - x, ship.y - y);
       direct.normalize(direct);
-      enemys.add(new makeEnemy(x, y, direct.x*15, direct.y*15, green));
+      enemys.add(new makeEnemy(x, y, direct.x*15, direct.y*15, blue));
   }
   
   //上から横一列で出てくる
@@ -89,14 +89,22 @@ public class Enemys{
     }
  }
  
+ void checkEnemy(int cnt){
+    if(cnt % 100 == 0){
+      float x = width/2; // 生成座標
+      float y = height/2;
+      enemys.add(new makeEnemy(x, y, 0, 0, red));
+    }
+ }
+ 
  
  void easyEnemy(){
     int cnt =frameCount-scene.frame_cnt; // 各ゲームごとのフレームの経過
    
     if(cnt %  50 == 0)                        baseEnemy(cnt); 
     if(cnt % 120 == 0)                        rapidEnemy(cnt); 
-    if(cnt % 350 == 0 && cnt >= frameRate*30) radialEnemy(cnt); 
-    if(cnt % 150 == 0 && cnt >= frameRate*40) sideEnemy(cnt);    
+    if(cnt % 350 == 0 && cnt >= frameRate*45) radialEnemy(cnt); 
+    //if(cnt % 150 == 0 && cnt >= frameRate*40) sideEnemy(cnt);    
  }
  
  void normalEnemy(){
@@ -122,6 +130,16 @@ public class Enemys{
     if(cnt % 200 ==   0 && cnt >= frameRate*70) radialEnemy(cnt); 
     if(cnt % 200 == 100 && cnt >= frameRate*70) connectedEnemy(cnt); 
  }
+ 
+ void check(){
+    int cnt =frameCount-scene.frame_cnt; // 各ゲームごとのフレームの経過
+    
+    if(cnt %  40 == 0) checkEnemy(cnt);
+    if(cnt >= frameRate*45){
+      level = 0;
+      scene.game_init();
+    }
+ }
    
   
   // 敵生成
@@ -144,6 +162,8 @@ public class Enemys{
      normalEnemy();
    }else if(level == 3){
      hardEnemy();
+   }else{
+     check();
    }
    
   }
