@@ -24,6 +24,32 @@ public class Ship{
     rect(x, y+size, hp/10, height/100);
   }
   
+  void shoot(){
+    stroke(255);
+    fill(255);
+    ellipse(bx, by, SHIP_Bsize, SHIP_Bsize);  // 攻撃する球(1発のみ)
+    fill(255-(255*sin(frameCount))*0.3);
+    ellipse(bx, by+12, SHIP_Bsize-2, SHIP_Bsize-2);
+    fill(255-(255*sin(frameCount))*0.5);
+    ellipse(bx, by+24, SHIP_Bsize-4, SHIP_Bsize-4);
+    fill(255-(255*sin(frameCount))*0.7);
+    ellipse(bx, by+37, SHIP_Bsize-6, SHIP_Bsize-6);      
+    by -= 10; // 弾の速さ
+  }
+  
+  void hitCheck(){
+    /* ボスに攻撃が当たったら */
+    if(boss_pop == true && (dist(bx, by, boss.x, boss.y) < (SHIP_Bsize+60)/2)){
+      boss.hit();
+      println("boss hit");
+      bflag = false;
+    }
+    
+    if(by <= 0)
+      bflag = false;
+      
+  }
+  
   // 座標の更新
   void update(float _x, float _y){
     // マウスカーソルでの移動の場合, 速度の問題でワープが起きる(解決するためマウスの方向へ割合移動)
@@ -55,33 +81,16 @@ public class Ship{
       //line(x, y, x, 0);
       if(bflag == false){
         bflag = true;
+        shoot.trigger();
         bx = x;
         by = y-20;
       }
     } 
-    if(by <= 0)
-      bflag = false;
     
-    
-    // 攻撃の作成
+    // 攻撃の作成と当たり判定
     if(bflag == true){
-      stroke(255);
-      fill(255);
-      ellipse(bx, by, SHIP_Bsize, SHIP_Bsize);  // 攻撃する球(1発のみ)
-      fill(255-(255*sin(frameCount))*0.3);
-      ellipse(bx, by+12, SHIP_Bsize-2, SHIP_Bsize-2);
-      fill(255-(255*sin(frameCount))*0.5);
-      ellipse(bx, by+24, SHIP_Bsize-4, SHIP_Bsize-4);
-      fill(255-(255*sin(frameCount))*0.7);
-      ellipse(bx, by+37, SHIP_Bsize-6, SHIP_Bsize-6);      
-      by -= 10; // 弾の速さ
-      
-      /* ボスに攻撃が当たったら */
-      if(boss_pop == true && (dist(bx, by, boss.x, boss.y) < (SHIP_Bsize+60)/2)){
-        boss.hit();
-        println("boss hit");
-        bflag = false;
-      }
+      shoot();     
+      hitCheck();
     }
     
     // 船の描画
