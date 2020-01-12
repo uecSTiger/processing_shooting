@@ -1,10 +1,13 @@
 // ボスの座標
 // ボスの攻撃方法
-public class Boss{
-  float x, y, w;
-  float moveX = 2;
-  float hp = 255;
+class Boss{
+  private static final int BOSS_HP = 20;     // ボスが耐えられる回数
+  public float x, y, w;
+  private float moveX = 2;
+  private float hp = 255;
   ArrayList bullets;
+  private Bullet bullet;
+  private PImage picture;
   
   Boss(float _x, float _y, float _w){
     x = _x;
@@ -43,7 +46,6 @@ public class Boss{
     }
   }
   
-  
   void easyBoss(){
     if(frameCount % 60 == 0)              fire_slow();
     if(frameCount % 50 == 0 && hp <=  85) fire_fast();
@@ -56,9 +58,9 @@ public class Boss{
   }
   
   void hardBoss(){
-    if(frameCount % 30 == 0)                boss.fire_360();
-    if(frameCount % 40 == 0 && hp <= 122.5) fire_slow();
-    if(frameCount % 20 == 0 && hp <=    85) fire_fast();
+    if(frameCount % 100 == 0)                boss.fire_360();
+    if(frameCount % 40  == 0 && hp <= 122.5) fire_slow();
+    if(frameCount % 60  == 0 && hp <=    85) fire_fast();
   }
  
  void bossAttack(){
@@ -74,8 +76,8 @@ public class Boss{
   
   void move(){
     // ボス描画
-    pictures = loadImage(picture[1]+".png");
-    image(pictures, x-20, y, 60, 40);
+    picture = loadImage("ufo_400x315.png");
+    image(picture, x-20, y, 60, 40);
     
     // ボスの移動
     if(x >= width || x <= 0)
@@ -101,17 +103,16 @@ public class Boss{
     }
     
     boss.remove_bullets();
-    
     bossAttack();
     
   }
   
   void hit(){
       hp -= 255 / BOSS_HP;
-      score += 1500;
+      score += 150;
       if(hp <= 0){
         gameover = true;
-        score += 10000;
+        score += 5000;
       }
   }
 }

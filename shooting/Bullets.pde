@@ -1,7 +1,7 @@
 // 敵の弾
-public class Bullet{
-  float x, y, r, dx, dy; // ボスの弾の座標と大きさと方向
-  color col;
+class Bullet{
+  private float x, y, r, dx, dy; // ボスの弾の座標と大きさと方向
+  private color col;
   
   Bullet(float _x, float _y, float _r, float _dx, float _dy, color _col){
     x = _x;
@@ -29,7 +29,6 @@ public class Bullet{
        return false;
     // hit check
     if(dist(x, y, ship.x, ship.y) <= (r/2 + 2)){
-       println("ship hit");
        ship.hit();
        score -= 300;
        if(score < 0 && level <= 2) score = 0;
