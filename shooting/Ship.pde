@@ -1,12 +1,14 @@
 // 自機の船
 // 船の攻撃
 // ボスへの当たり判定
-public class Ship{
-  int x, y;             // 船の座標
-  int bx, by;           // 攻撃の球の座標
-  int size = width/20+height/20;
-  boolean bflag = false;     // 攻撃しているかの判断
-  float hp = 255;
+class Ship{
+  private static final int SHIP_HP = 10;     // 船が耐えられる回数
+  public int x, y;             // 船の座標
+  public int bx, by;           // 攻撃の球の座標
+  private final int size = width/20+height/20;
+  boolean bflag = false;       // 攻撃しているかの判断
+  private float hp = 255;
+  private PImage picture;
   
   Ship(int _x, int _y){
     x = _x;
@@ -15,6 +17,7 @@ public class Ship{
   
   void hpBar(){
     // HPゲージの描画
+    rectMode(CORNER);
     if(hp >= 60) stroke(white);
     else stroke(red);
     noFill();
@@ -39,9 +42,8 @@ public class Ship{
   
   void hitCheck(){
     /* ボスに攻撃が当たったら */
-    if(boss_pop == true && (dist(bx, by, boss.x, boss.y) < (SHIP_Bsize+60)/2)){
+    if(scene.boss_pop == true && (dist(bx, by, boss.x, boss.y) < (SHIP_Bsize+60)/2)){
       boss.hit();
-      println("boss hit");
       bflag = false;
     }
     
@@ -92,10 +94,9 @@ public class Ship{
       shoot();     
       hitCheck();
     }
-    
     // 船の描画
-    pictures = loadImage(picture[0]+".png");
-    image(pictures, x-20, y-20, size, size);
+    picture = loadImage("spaceShip_400x234.png");
+    image(picture, x-20, y-20, size, size);
     hpBar();
     
   }

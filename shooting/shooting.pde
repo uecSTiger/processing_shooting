@@ -15,6 +15,7 @@
 
 makeCEをmakeEクラスの派生に
 変数の宣言場所等の調整
+終了をつける
 
 *****************************************
 音楽: https://otologic.jp/free/bgm/game-shooter-nes01.html  (OtoLogic)
@@ -22,36 +23,26 @@ makeCEをmakeEクラスの派生に
 ****************************************/
 import ddf.minim.*;
 
-makeEnemy enemy;
-Enemys maneger;
-Ship ship;
-Bullet bullet;
-Boss boss;
-Scene scene;
-Minim minim;
+makeEnemy enemy; // enemyManager, scene, shooting
+Enemys maneger; // shooting, scene
+Ship ship; // shooting, scene
+Boss boss; // scene
+Scene scene; // shooting
+Minim minim; // shooting
 AudioPlayer enemyBgm, bossBgm;
 AudioSample shoot;
 
-final int SHIP_Bsize = 10;  // 船の弾の大きさ
-final int ENEMY_size = 30;  // 敵の大きさ
-final int SHIP_HP = 10;     // 船が耐えられる回数
-final int BOSS_HP = 20;     // ボスが耐えられる回数
+
+final int SHIP_Bsize = 10;  // 船の弾の大きさ, ship, makeCE, makeE
 int score = 0;              // スコア
-int step = 0;               // "Boss"画面表示時間
 int level = 0;              // 難易度
-float start_time = 0;       // ゲームの経過時間
-boolean boss_pop = false;   // ボスの出現状態
+
 boolean gameover = false;   //ゲームの終わり
 
 /* 色 */
 color red = #ff0000, green = #00ff00, blue = #0000ff;
 color white = #ffffff, yellow = #ffff00, orange = #ffa500;
-color purple = #800080;
-
-PFont font;
-
-PImage pictures;                   // 背景画像用の  PImage       
-final String picture[] = {"spaceShip_400x234","ufo_400x315"};
+color purple = #800080;     
 
 void setup(){
    size(640, 640);
@@ -60,7 +51,6 @@ void setup(){
     
    scene = new Scene(); 
    ship = new Ship(160, 480);
-   enemy = new makeEnemy(160, 0, -3, 5, red);
    maneger = new Enemys();
    minim = new Minim(this);
    enemyBgm = minim.loadFile("Stage.mp3");
@@ -70,6 +60,7 @@ void setup(){
    
 /*********** フォントの設定  *************/
 /* フォントをVLWフォーマットに変換・作成 */
+   PFont font;
    font = createFont("MS Mincho", 48);    // ＭＳ明朝 「MS Mincho」
    textFont(font);                        // フォントを指定する
 /*****************************************/
@@ -77,7 +68,7 @@ void setup(){
     
 // スコアと経過時間の表示
 void printData() {
-  float time = (float)millis()/1000 - start_time;
+  float time = (float)millis()/1000 - scene.start_time;
   fill(white);
   textSize(30);
   textAlign(RIGHT);
