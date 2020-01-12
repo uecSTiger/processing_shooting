@@ -1,7 +1,8 @@
 // 1体の敵の座標、方向（早さ）を管理(生成)
 // 敵の当たり判定
-public class makeEnemy{
-  float x, y, dx, dy; // 敵の座標と方向
+class makeEnemy{
+  static final int ENEMY_size = 30;  // 敵の大きさ
+  private float x, y, dx, dy; // 敵の座標と方向
   color col; // 敵の色
   
   makeEnemy(float _x, float _y, float _dx, float _dy, color _col){
@@ -15,7 +16,6 @@ public class makeEnemy{
   boolean hitCheck(){
     // 船が敵に当たった
     if(dist(x, y, ship.x, ship.y) <= (ENEMY_size+ship.size)/2){
-      println("ship hit");
       ship.hit();
       score -= 200;
       if(score < 0 && level <= 2) score = 0;
@@ -24,7 +24,6 @@ public class makeEnemy{
     
     // 船の攻撃が敵に当たった
     if(ship.bflag == true && (dist(x, y, ship.bx, ship.by) < ((ENEMY_size+SHIP_Bsize)/2))){
-      println("ship shoot");
       score += 100;
       ship.bflag = false;
       return false;

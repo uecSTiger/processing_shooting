@@ -1,9 +1,9 @@
 // 複数の敵の座標方向を管理
 // 敵の出現方法の管理
-public class Enemys{
+class Enemys{
   ArrayList enemys;
   ArrayList cenemys;
-  int assosiation_flag = 0;
+  private int flag = 0;
   
   Enemys(){
     enemys = new ArrayList();
@@ -60,12 +60,6 @@ public class Enemys{
       direct.normalize(direct);
       enemys.add(new makeEnemy(x, y, direct.x*15, direct.y*15, blue));
   }
-  
-  //上から横一列で出てくる
-  void rowEnemy(int cnt){
-    for(int i=0; i<=width; i+= ENEMY_size)
-      enemys.add(new makeEnemy(i, 0, 0, 3, red));
-  }
  
  // 放射状に出てくる   
  void radialEnemy(int cnt){
@@ -74,19 +68,6 @@ public class Enemys{
         float rad = radians(i);
         enemys.add(new makeEnemy(x, 0, cos(rad), sin(rad), red));
       }
- }
- // 連続して同じ方向に連結した敵
- void connectedEnemy(int cnt){
-    if(cnt % 200 == 0 || assosiation_flag > 0){
-      float x = 160; // 生成座標
-      float y = 0;
-      if(assosiation_flag < 5){
-        cenemys.add(new makeChaiseEnemy(x, y+assosiation_flag*30, 0, 5, purple));
-        assosiation_flag++;
-      }else{
-        assosiation_flag = 0;
-      }
-    }
  }
  
  void checkEnemy(int cnt){
@@ -100,35 +81,28 @@ public class Enemys{
  
  void easyEnemy(){
     int cnt =frameCount-scene.frame_cnt; // 各ゲームごとのフレームの経過
-   
-    if(cnt %  50 == 0)                        baseEnemy(cnt); 
-    if(cnt % 120 == 0)                        rapidEnemy(cnt); 
-    if(cnt % 350 == 0 && cnt >= frameRate*45) radialEnemy(cnt); 
-    //if(cnt % 150 == 0 && cnt >= frameRate*40) sideEnemy(cnt);    
+    if(cnt %  50 == 0 && enemys.size() <= 8)  baseEnemy(cnt); 
+    if(cnt % 120 == 0 && enemys.size() <= 8)  rapidEnemy(cnt); 
+    if(cnt % 350 == 0 && cnt >= frameRate*45) radialEnemy(cnt);   
  }
  
  void normalEnemy(){
     int cnt =frameCount-scene.frame_cnt; // 各ゲームごとのフレームの経過
-    
-    if(cnt %  30 == 0)                        baseEnemy(cnt); 
-    if(cnt %  60 == 0)                        rapidEnemy(cnt); 
-    if(cnt %  80 == 0 && cnt >= frameRate*20) baseCEnemy(cnt);
-    if(cnt %  90 == 0 && cnt >= frameRate*45) sideEnemy(cnt);
-    if(cnt % 250 == 0 && cnt >= frameRate*60) radialEnemy(cnt);
-    if(cnt % 110 == 0 && cnt >= frameRate*70) belowEnemy(cnt);
+    if(cnt %  30 == 0 && enemys.size() <= 10)                        baseEnemy(cnt); 
+    if(cnt %  60 == 0 && enemys.size() <= 10)                        rapidEnemy(cnt); 
+    if(cnt %  80 == 0 && cnt >= frameRate*20)                        baseCEnemy(cnt);
+    if(cnt %  90 == 0 && cnt >= frameRate*45 && enemys.size() <= 12) sideEnemy(cnt);
+    if(cnt % 250 == 0 && cnt >= frameRate*60)                        radialEnemy(cnt);
  }
  
  void hardEnemy(){
     int cnt =frameCount-scene.frame_cnt; // 各ゲームごとのフレームの経過
-
-    if(cnt %  40 ==   0)                        baseEnemy(cnt);  
-    if(cnt % 100 ==   0)                        baseCEnemy(cnt);
-    if(cnt %  80 ==   0)                        rapidEnemy(cnt); 
-    if(cnt %  40 ==   0 && cnt >= frameRate*30) sideEnemy(cnt);
-    if(cnt %  40 ==   0 && cnt >= frameRate*40) belowEnemy(cnt);
-    if(cnt % 130 ==   0 && cnt >= frameRate*50) rowEnemy(cnt); 
-    if(cnt % 200 ==   0 && cnt >= frameRate*70) radialEnemy(cnt); 
-    if(cnt % 200 == 100 && cnt >= frameRate*70) connectedEnemy(cnt); 
+    if(cnt %  40 ==   0 && enemys.size() <= 10)                        baseEnemy(cnt);  
+    if(cnt % 100 ==   0 && enemys.size() <= 10)                        baseCEnemy(cnt);
+    if(cnt %  80 ==   0 && enemys.size() <= 12)                        rapidEnemy(cnt); 
+    if(cnt %  40 ==   0 && cnt >= frameRate*30 && enemys.size() <= 15) sideEnemy(cnt);
+    if(cnt % 150 ==   0 && cnt >= frameRate*40 && enemys.size() <= 16) belowEnemy(cnt);
+    if(cnt % 200 ==   0 && cnt >= frameRate*70)                        radialEnemy(cnt); 
  }
  
  void check(){

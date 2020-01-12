@@ -1,26 +1,29 @@
 // sceneごとのフラグ管理を行う
 // menu画面
 // ゲーム画面
-
-// 船の強化具合
-// 船の回復アイテム
-
-public class Scene{
-  int boss_frame = 130; // ボスに行くフレーム時間
-  int frame_cnt = 0;    // 制限時間
+class Scene{
+  public boolean boss_pop = false;   // ボスの出現状態
+  private int boss_frame = 130; // ボスに行くフレーム時間
+  public int frame_cnt = 0;    // 制限時間
+  private int step = 0;               // "Boss"画面表示時間
+  public float start_time = 0;       // ゲームの経過時間
   
   Scene(){
   }
   
   void game_init(){
+    
     level = 0;
     score = 0;
     ship = null;
-    ship = new Ship(160, 480);
+    ship = new Ship(160, 480);  
     if(boss_pop){
       boss = null;  // 念のために
       boss_pop = false;
     }
+    if(bossBgm.isPlaying()) bossBgm.pause();
+    if(enemyBgm.isPlaying()) enemyBgm.pause();
+    enemyBgm.loop(0);
     gameover = false;
     
     // 敵の初期化
@@ -42,17 +45,17 @@ public class Scene{
     }
     if (level == 1){
       scene.playGame();//easy();  難易度ごとに弾の種類を変える
-      boss_frame = 1;
+      boss_frame = 60;
     }
     if (level == 2){
       scene.playGame();//normal();
-      boss_frame = 1;
+      boss_frame = 90;
     }
     if (level == 3){
       scene.playGame();//hard();
-      boss_frame = 1;
+      boss_frame = 120;
     }
-    if (level == 5)  scene.playGame();//gradius.play();  違うのクラスへ
+    if (level == 5)  scene.playGame();//check.play();  違うのクラスへ
   }
   
   //メニュー画面
@@ -82,6 +85,12 @@ public class Scene{
     textSize(20);
     text("Press c To Start", width/2, 370);
     
+    textSize(40);
+    fill(255);
+    text("Check", width/2, 350);
+    textSize(20);
+    text("Escキーで終了", width/2, height-200);
+    
     textSize(20);
     fill(255);
     textAlign(RIGHT);
@@ -93,6 +102,7 @@ public class Scene{
       if (key == 'n') level = 2;
       if (key == 'h') level = 3;
       if (key == 'c') level = 5;
+      if (key == ESC) exit();
     }
   }
   
@@ -135,8 +145,8 @@ public class Scene{
         step = frameCount-frame_cnt;  // "Boss"の表示時間の調整
         
         // ボスの表示
-        enemyBgm.close();
-        bossBgm.loop();
+        if(enemyBgm.isPlaying()) enemyBgm.pause();
+        bossBgm.loop(0);
         boss = new Boss(160, 30, 15);
         boss_pop = true;
      }
@@ -166,7 +176,7 @@ public class Scene{
         
       }else{
         bossButtle();
-        
+ 
       }
       
       // 船の座標位置   

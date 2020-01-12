@@ -1,54 +1,54 @@
 // 1体の敵の座標、方向（早さ）を管理(生成)
 // 敵の当たり判定
 // easyとnormalの時はスコアが0以下にはならない
-public class makeChaiseEnemy{
-  float cenemy_x, cenemy_y, cdx, cdy; // 敵の座標と方向
+class makeChaiseEnemy{
+  static final int ENEMY_size = 30;  // 敵の大きさ
+  float x, y, dx, dy; // 敵の座標と方向
   color col; // 敵の色
   
-  makeChaiseEnemy(float x, float y, float Dx, float Dy, color Col){
-    cenemy_x = x;
-    cenemy_y = y;
-    cdx = Dx;
-    cdy = Dy;
-    col = Col; 
+  makeChaiseEnemy(float _x, float _y, float _dx, float _dy, color _col){
+    x = _x;
+    y = _y;
+    dx = _dx;
+    dy = _dy;
+    col = _col; 
   }
   
   boolean update(){
     if(frameCount % 70 == 0){
-      PVector direct = new PVector(ship.x - cenemy_x, ship.y - cenemy_y);
+      PVector direct = new PVector(ship.x - x, ship.y - y);
       direct.normalize(direct);
       if(direct.x >= 0.5){
-        cdx = (direct.x - 0.1) * 2;
+        dx = (direct.x - 0.1) * 2;
       }else if(direct.x <= -0.5){
-        cdx = (direct.x + 0.1) * 2;
+        dx = (direct.x + 0.1) * 2;
       }else{
-        cdx = direct.x*3;
+        dx = direct.x*3;
       }
     }
-    cenemy_x += cdx;
-    cenemy_y += cdy;
+    x += dx;
+    y += dy;
     
     stroke(col);
     fill(col);
-    ellipse(cenemy_x, cenemy_y, ENEMY_size, ENEMY_size);
+    rectMode(CENTER);
+    rect(x, y, ENEMY_size, ENEMY_size);
      
     // area check
-    if(cenemy_x <= 0 || cenemy_x >= width)
-      cdx = -cdx;
-    if(cenemy_y <= 0 || cenemy_y >= height)
+    if(x <= 0 || x >= width)
+      dx = -dx;
+    if(y <= 0 || y >= height)
       return false;
       
     // hit check
     // 船が敵に当たった
-    if(dist(cenemy_x, cenemy_y, ship.x, ship.y) <= (ENEMY_size+ship.size)/2){
-      println("ship hit");
+    if(dist(x, y, ship.x, ship.y) <= (ENEMY_size+ship.size)/2){
       ship.hit();
       return false;
     }
     
     // 攻撃が敵に当たった
-    if(ship.bflag == true && (dist(cenemy_x, cenemy_y, ship.bx, ship.by) < ((ENEMY_size+SHIP_Bsize)/2))){
-      println("ship shoot");
+    if(ship.bflag == true && (dist(x, y, ship.bx, ship.by) < ((ENEMY_size+SHIP_Bsize)/2))){
       score += 100;
       ship.bflag = false;
       
