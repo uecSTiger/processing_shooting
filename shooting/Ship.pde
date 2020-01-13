@@ -3,10 +3,10 @@
 // ボスへの当たり判定
 class Ship{
   private static final int SHIP_HP = 10;     // 船が耐えられる回数
-  public int x, y;             // 船の座標
-  public int bx, by;           // 攻撃の球の座標
+  public int x, y;                           // 船の座標
+  public int bx, by;                         // 攻撃の球の座標
   private final int size = width/20+height/20;
-  boolean bflag = false;       // 攻撃しているかの判断
+  boolean bflag = false;                     // 攻撃しているかの判断
   private float hp = 255;
   private PImage picture;
   
@@ -54,7 +54,6 @@ class Ship{
   
   // 座標の更新
   void update(float _x, float _y){
-    // マウスカーソルでの移動の場合, 速度の問題でワープが起きる(解決するためマウスの方向へ割合移動)
     PVector direct = new PVector(_x-x, _y-y);
     
     x+=(int)direct.x/20;

@@ -11,14 +11,13 @@ class Scene{
   Scene(){
   }
   
-  void game_init(){
-    
+  void game_init(){  
     level = 0;
     score = 0;
     ship = null;
     ship = new Ship(160, 480);  
     if(boss_pop){
-      boss = null;  // 念のために
+      boss = null;
       boss_pop = false;
     }
     if(bossBgm.isPlaying()) bossBgm.pause();
@@ -44,7 +43,7 @@ class Scene{
       frame_cnt = frameCount;
     }
     if (level == 1){
-      scene.playGame();//easy();  難易度ごとに弾の種類を変える
+      scene.playGame();//easy();  
       boss_frame = 60;
     }
     if (level == 2){
@@ -55,7 +54,7 @@ class Scene{
       scene.playGame();//hard();
       boss_frame = 120;
     }
-    if (level == 5)  scene.playGame();//check.play();  違うのクラスへ
+    if (level == 5)  scene.playGame();
   }
   
   //メニュー画面
@@ -172,7 +171,7 @@ class Scene{
       
       // ボスに行く時間の前だったら
       if(frameCount-frame_cnt <= frameRate*boss_frame){
-        maneger.make_enemy();  // ボスの前の敵を表示
+        maneger.make_enemy();  // 敵を表示
         
       }else{
         bossButtle();
@@ -180,7 +179,7 @@ class Scene{
       }
       
       // 船の座標位置   
-      ship.update(mouseX, mouseY);  // mouseX, mouseY
+      ship.update(mouseX, mouseY);
       printData();  // 経過時間とスコア表示
     }
   }

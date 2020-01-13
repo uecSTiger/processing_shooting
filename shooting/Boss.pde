@@ -40,7 +40,7 @@ class Boss{
   // 画面外の弾の削除
   void remove_bullets(){
     for (int i = bullets.size() -1; i >=0 ; i--) {
-      Bullet bullet = (Bullet)bullets.get(i);  // ArrayList から Tamaをとりだし
+      Bullet bullet = (Bullet)bullets.get(i);  // ArrayList から bulletをとりだし
       if (bullet.update() == false)            // update メソッドをよび
         bullets.remove(i);                     // 画面外と船に当たったら、削除
     }

@@ -24,10 +24,10 @@ class Bullet{
     if(y <= 0)
       return false;
       
-    // area check
+    // 出現範囲の判定
     if (y >= height || y <= 0 || x >= width || x <= 0)
        return false;
-    // hit check
+    // あたり判定
     if(dist(x, y, ship.x, ship.y) <= (r/2 + 2)){
        ship.hit();
        score -= 300;

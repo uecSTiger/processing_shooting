@@ -3,7 +3,6 @@
 class Enemys{
   ArrayList enemys;
   ArrayList cenemys;
-  private int flag = 0;
   
   Enemys(){
     enemys = new ArrayList();
@@ -113,6 +112,20 @@ class Enemys{
       level = 0;
       scene.game_init();
     }
+    
+    if(keyPressed){
+      if(key == 'z'){
+        level = 0;
+        scene.game_init();
+      }
+    }
+    
+    fill(white);
+    textSize(30);
+    textSize(20);
+    textAlign(RIGHT);
+    text("Press Z To Go back menu", width, height-30);
+     
  }
    
   

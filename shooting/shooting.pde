@@ -1,39 +1,20 @@
 // メインのコード(setup, draw, グローバル変数)
 
-/****************************************
-船のダメージの可視化(ゲージ, エフェクト) 
-難易度の作成
-カーソル方向に船を移動(船の移動方法(カーソル移動, マウス移動))
-
-難易度による敵の大きさの変化
-難易度によるボスの強さの調整
-難易度によるボスの大きさ動きの変化
-ボスでのスコアの減点をどうするか
-敵の画像化(もしくは形を凝る), 画像の場合は敵数を減らす
-出現方法の調整
-画面サイズの調整による影響の軽減
-
-makeCEをmakeEクラスの派生に
-変数の宣言場所等の調整
-終了をつける
-
-*****************************************
+/*********************************************************************************
 音楽: https://otologic.jp/free/bgm/game-shooter-nes01.html  (OtoLogic)
 イラスト: https://www.irasutoya.com/
 ****************************************/
 import ddf.minim.*;
 
-makeEnemy enemy; // enemyManager, scene, shooting
-Enemys maneger; // shooting, scene
-Ship ship; // shooting, scene
-Boss boss; // scene
-Scene scene; // shooting
-Minim minim; // shooting
+Enemys maneger;
+Ship ship; 
+Boss boss; 
+Scene scene; 
+Minim minim; 
 AudioPlayer enemyBgm, bossBgm;
 AudioSample shoot;
 
-
-final int SHIP_Bsize = 10;  // 船の弾の大きさ, ship, makeCE, makeE
+final int SHIP_Bsize = 10;  // 船の弾の大きさ
 int score = 0;              // スコア
 int level = 0;              // 難易度
 
@@ -48,6 +29,7 @@ void setup(){
    size(640, 640);
    frameRate(30);
    //noCursor();
+   //noSmooth();
     
    scene = new Scene(); 
    ship = new Ship(160, 480);
